@@ -1,27 +1,41 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import javax.persistence.Column;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Room {
+@Entity
+@Table(name="meetingroom")
+public class RoomEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
     @NotNull(message = "Null Field : name" )
+    @Column(name = "name")
     private String name;
 
     @NotNull(message = "Null Field : date" )
+    @Column(name = "date")
     private LocalDate date;
 
     @NotNull(message = "Null Field : starHour" )
+    @Column(name = "startHour", nullable = false)
     private LocalTime startHour;
 
     @NotNull(message = "Null Field : endHour" )
+    @Column(name = "endHour", nullable = false)
     private LocalTime endHour;
 
-    public Room(Long id,String name,LocalDate date,LocalTime startHour,LocalTime endHour) {
+    public RoomEntity() {
+
+    }
+
+    public RoomEntity(Long id, String name, LocalDate date, LocalTime startHour, LocalTime endHour) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -67,5 +81,11 @@ public class Room {
 
     public void setEndHour(LocalTime endHour) {
         this.endHour = endHour;
+    }
+
+    @Override
+    public String toString(){
+        return "Room [id=" + id+",name=" + name + ",date ="+ date +",startHour=" +startHour +",endHour="+ endHour +"]";
+
     }
 }

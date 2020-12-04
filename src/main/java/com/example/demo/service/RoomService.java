@@ -1,13 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.BusinessException;
+import com.example.demo.entity.RoomEntity;
+import com.example.demo.mapper.RoomMapper;
 import com.example.demo.model.Room;
 import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -21,63 +21,43 @@ public class RoomService {
     private RoomRepository roomRepository;
 
     public Room createRoom(Room room) throws BusinessException {
+        scheduleValidation(room);
+        return RoomMapper.unmarshall(roomRepository.save(RoomMapper.marshall(room)));
 
-        if(room.getDate().isBefore(LocalDate.now()))
+        //return new Room(1L,"qualquerUm",null,null,null);
+    }
+
+    private void scheduleValidation(Room roomEntity) throws BusinessException {
+        if(roomEntity.getDate().isBefore(LocalDate.now()))
             throw new BusinessException(BusinessException.INVALID_DATE);
 
-        if(room.getStartHour().isAfter(room.getEndHour()))
+        if(roomEntity.getStartHour().isAfter(roomEntity.getEndHour()))
             throw new BusinessException(BusinessException.TIME_ERROR);
 
-        if(room.getStartHour().equals(room.getEndHour()))
+        if(roomEntity.getStartHour().equals(roomEntity.getEndHour()))
             throw new BusinessException(BusinessException.TIME_ERROR);
-
-        return roomRepository.save(room);
     }
+
     public List<Room> getAllRooms(){
-        return roomRepository.findAll();
+        return RoomMapper.unmarshall(roomRepository.findAll());
     }
 
     public Room getRoomById(long roomId) throws BusinessException {
 
-        return  roomRepository.findById(roomId)
-                .orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND+": "+roomId));
+        return  RoomMapper.unmarshall(roomRepository.findById(roomId)
+                .orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND+": "+roomId)));
     }
 
-    public Room updateRoom(long roomId, Room roomRequest) throws BusinessException {
+    public Room updateRoom(long roomId, Room room) throws BusinessException {
 
-        Optional<Room> room = roomRepository.findById(roomId);
-
-        if(room.isEmpty())
-            throw new BusinessException(BusinessException.ROOM_NOT_FOUND + ": " + roomId);
-
-        if(roomRequest.getStartHour() == null)
-            throw new BusinessException(BusinessException.NULL_FIELD + " :startHour");
-
-        if(roomRequest.getEndHour() == null)
-            throw new BusinessException(BusinessException.NULL_FIELD + " :endHour");
-
-        if(roomRequest.getName() == null || roomRequest.getName() == "" )
-            throw new BusinessException(BusinessException.NULL_FIELD + " :Name");
-
-        if(roomRequest.getDate().isBefore(LocalDate.now()) || roomRequest.getDate() == null)
-            throw new BusinessException(BusinessException.INVALID_DATE);
-
-        if(roomRequest.getStartHour().isAfter(roomRequest.getEndHour()))
-            throw new BusinessException(BusinessException.TIME_ERROR);
-
-        if(roomRequest.getStartHour().equals(roomRequest.getEndHour()))
-            throw new BusinessException(BusinessException.TIME_ERROR);
-
-        Room saveRoom = room.get();
-        saveRoom.setDate(roomRequest.getDate());
-        saveRoom.setEndHour(roomRequest.getEndHour());
-        saveRoom.setName(roomRequest.getName());
-        saveRoom.setStartHour(roomRequest.getStartHour());
-        return  roomRepository.save(saveRoom);
+        RoomEntity entity = roomRepository.findById(roomId).orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND + ": " + roomId));
+        scheduleValidation(room);
+        room.setId(roomId);
+        return  RoomMapper.unmarshall(roomRepository.save(RoomMapper.marshall(room)));
     }
 
     public Map<String, Boolean> deleteRoom(long roomId) throws BusinessException {
-        Optional<Room> room =  roomRepository.findById(roomId);
+        Optional<RoomEntity> room =  roomRepository.findById(roomId);
 
         if(room.isEmpty())
             throw new BusinessException(BusinessException.ROOM_NOT_FOUND + ": " + roomId);

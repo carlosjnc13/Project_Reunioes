@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.exception.BusinessException;
 import com.example.demo.model.Room;
 import com.example.demo.repository.RoomRepository;
@@ -15,7 +14,7 @@ import java.util.Map;
 @RestController @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping ("api/v1")
 
-public class RoomController {
+public class RoomController extends IController{
 
     @Autowired
     private RoomRepository roomRepository;
@@ -23,27 +22,27 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @GetMapping("/rooms")
+    @GetMapping(URL)
     public List<Room> getAllRooms(){
         return roomService.getAllRooms();
     }
 
-    @GetMapping("/rooms/{id}")
+    @GetMapping(URL_ID)
     public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId) throws BusinessException {
             return ResponseEntity.ok().body(roomService.getRoomById(roomId));
     }
 
-    @PostMapping("/rooms")
+    @PostMapping(URL)
     public Room createRoom(@RequestBody Room room) throws BusinessException {
         return roomService.createRoom(room);
     }
 
-    @PutMapping("/rooms/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable(value= "id") long roomId, @Valid @RequestBody Room roomDetails) throws BusinessException {
-        return ResponseEntity.ok(roomService.updateRoom(roomId,roomDetails));
+    @PutMapping(URL_ID)
+    public ResponseEntity<Room> updateRoom(@PathVariable(value= "id") long roomId, @Valid @RequestBody Room room) throws BusinessException {
+        return ResponseEntity.ok(roomService.updateRoom(roomId, room));
     }
 
-    @DeleteMapping("/rooms/{id}")
+    @DeleteMapping(URL_ID)
     public Map<String, Boolean> deleteRoom(@PathVariable(value = "id")Long roomId) throws BusinessException {
         return roomService.deleteRoom(roomId);
     }

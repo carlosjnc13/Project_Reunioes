@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BusinessException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public static final String INVALID_DATE = "it is not possible to register a past date";
-    public static final String ROOM_NOT_FOUND = "Room Not Found for this Id";
+    public static final String INVALID_DATE = "it is not possible to register a past or null date";
+    public static final String ROOM_NOT_FOUND = "Room Not Found";
+    public static final String NULL_FIELD = "Null Field";
 
     public BusinessException(String message){
         super(message);

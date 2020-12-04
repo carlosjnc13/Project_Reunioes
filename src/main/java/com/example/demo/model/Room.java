@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name="meetingroom")
@@ -19,16 +20,16 @@ public class Room {
     private LocalDate date;
 
     @Column(name = "startHour", nullable = false)
-    private String startHour;
+    private LocalTime startHour;
 
     @Column(name = "endHour", nullable = false)
-    private String endHour;
+    private LocalTime endHour;
 
     public Room() {
 
     }
 
-    public Room(long id, String name, LocalDate date, String startHour, String endHour) {
+    public Room(long id, String name, LocalDate date, LocalTime startHour, LocalTime endHour) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -60,19 +61,19 @@ public class Room {
         this.date = date;
     }
 
-    public String getStartHour() {
+    public LocalTime getStartHour() {
         return startHour;
     }
 
-    public void setStartHour(String startHour) {
+    public void setStartHour(LocalTime startHour) {
         this.startHour = startHour;
     }
 
-    public String getEndHour() {
+    public LocalTime getEndHour() {
         return endHour;
     }
 
-    public void setEndHour(String endHour) {
+    public void setEndHour(LocalTime endHour) {
         this.endHour = endHour;
     }
 

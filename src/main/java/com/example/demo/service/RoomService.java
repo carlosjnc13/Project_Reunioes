@@ -25,6 +25,12 @@ public class RoomService {
         if(room.getDate().isBefore(LocalDate.now()))
             throw new BusinessException(BusinessException.INVALID_DATE);
 
+        if(room.getStartHour().isAfter(room.getEndHour()))
+            throw new BusinessException(BusinessException.TIME_ERROR);
+
+        if(room.getStartHour().equals(room.getEndHour()))
+            throw new BusinessException(BusinessException.TIME_ERROR);
+
         return roomRepository.save(room);
     }
     public List<Room> getAllRooms(){
@@ -55,6 +61,12 @@ public class RoomService {
 
         if(roomRequest.getDate().isBefore(LocalDate.now()) || roomRequest.getDate() == null)
             throw new BusinessException(BusinessException.INVALID_DATE);
+
+        if(roomRequest.getStartHour().isAfter(roomRequest.getEndHour()))
+            throw new BusinessException(BusinessException.TIME_ERROR);
+
+        if(roomRequest.getStartHour().equals(roomRequest.getEndHour()))
+            throw new BusinessException(BusinessException.TIME_ERROR);
 
         Room saveRoom = room.get();
         saveRoom.setDate(roomRequest.getDate());

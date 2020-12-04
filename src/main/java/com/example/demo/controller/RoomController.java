@@ -1,14 +1,13 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.BusinessException;
 import com.example.demo.model.Room;
 import com.example.demo.repository.RoomRepository;
+import com.example.demo.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import javax.validation.Valid;
 import java.lang.module.ResolutionException;
@@ -24,6 +23,9 @@ public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private RoomService roomService;
+
     @GetMapping("/rooms")
     public List<Room> getAllRooms(){
         return roomRepository.findAll();
@@ -31,22 +33,23 @@ public class RoomController {
 
     @GetMapping("/rooms/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId)
-        throws ResourceNotFoundException{
+        throws BusinessException {
             Room room = roomRepository.findById(roomId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Room Not Found: " +roomId));
+                    .orElseThrow(() -> new BusinessException("Room Not Found: " +roomId));
             return ResponseEntity.ok().body(room);
         }
 
     @PostMapping("/rooms")
-    public Room createRoom(@RequestBody Room room){
-        return roomRepository.save(room);
+    public Room createRoom(@RequestBody Room room) throws BusinessException {
+
+        return roomService.createRoom(room);
     }
 
     @PutMapping("/rooms/{id}")
     public ResponseEntity<Room> updateRoom(@PathVariable(value= "id") long roomId,
-                                                    @Valid @RequestBody Room roomDetails) throws ResourceNotFoundException{
+                                                    @Valid @RequestBody Room roomDetails) throws BusinessException {
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResolutionException("Room Not Found for this Id::" + roomId));
+                .orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND));
 
         room.setName(roomDetails.getName());
         room.setDate(roomDetails.getDate());
@@ -60,9 +63,9 @@ public class RoomController {
 
     @DeleteMapping("/rooms/{id}")
     public Map<String, Boolean> deleteRoom(@PathVariable(value = "id")Long roomId)
-        throws ResourceNotFoundException{
+        throws BusinessException {
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new ResourceNotFoundException("Room Not Found for this Id:" + roomId));
+                .orElseThrow(()-> new BusinessException("Room Not Found for this Id:" + roomId));
 
         roomRepository.delete(room);
         Map<String,Boolean> response = new HashMap<>();

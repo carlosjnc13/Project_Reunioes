@@ -5,10 +5,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value=HttpStatus.NOT_FOUND)
 
-public class ResourceNotFoundException extends Exception {
+public class BusinessException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public ResourceNotFoundException(String message){
+    public static final String INVALID_DATE = "it is not possible to register a past date";
+    public static final String ROOM_NOT_FOUND = "Room Not Found for this Id";
+
+    public BusinessException(String message){
         super(message);
     }
 }

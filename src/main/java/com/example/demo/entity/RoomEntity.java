@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 
+import com.example.demo.model.Equipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class RoomEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "equipmentId")
+    private EquipmentEntity equipmentEntity;
 
     @NotNull(message = "Null Field : name" )
     @Column(name = "name")

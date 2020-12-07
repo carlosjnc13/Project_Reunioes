@@ -1,8 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.ParticipantEntity;
 import com.example.demo.entity.RoomEntity;
-import com.example.demo.model.Participant;
 import com.example.demo.model.Room;
 
 import java.util.List;
@@ -11,13 +9,11 @@ import java.util.stream.Collectors;
 public class RoomMapper {
 
     public static RoomEntity marshall(Room model){
-        return new RoomEntity(model.getId(), model.getName(),model.getDate(),model.getStartHour(),model.getEndHour(),model.getParticipants()
-                 .stream().map( Participant  ->  new ParticipantEntity(Participant.getId(), Participant.getName(), Participant.getEmail())).collect(Collectors.toList()));
+        return new RoomEntity(model.getId(), model.getName(),model.getDate(),model.getStartHour(),model.getEndHour());
     }
 
     public static Room unmarshall(RoomEntity entity){
-        return new Room(entity.getId(), entity.getName(),entity.getDate(),entity.getStartHour(),entity.getEndHour(),entity.getParticipants()
-                .stream().map( ParticipantEntity  ->  new Participant(ParticipantEntity.getId(), ParticipantEntity.getName(), ParticipantEntity.getEmail())).collect(Collectors.toList()));
+        return new Room(entity.getId(), entity.getName(),entity.getDate(),entity.getStartHour(),entity.getEndHour());
     }
 
     public static  List<RoomEntity> marshall (List<Room> listRoom){

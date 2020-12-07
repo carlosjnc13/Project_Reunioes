@@ -10,8 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,9 +38,5 @@ public class RoomEntity {
     @NotNull(message = "Null Field : endHour" )
     @Column(name = "endHour", nullable = false)
     private LocalTime endHour;
-
-    @ManyToMany
-    @JoinTable(name="room_Participants", joinColumns = { @JoinColumn(name="meetingroom_id") }, inverseJoinColumns = { @JoinColumn(name="participants_id")})
-    private List<ParticipantEntity> participants;
 
 }

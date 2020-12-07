@@ -39,7 +39,7 @@ public class RoomService {
     }
 
     public List<Room> getAllRooms(){
-        return RoomMapper.unmarshall(roomRepository.findAll());
+        return RoomMapper.unmarshallRoom(roomRepository.findAll());
     }
 
     public Room getRoomById(long roomId) throws BusinessException {

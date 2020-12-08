@@ -13,18 +13,20 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "equipment")
-public class EquipmentEntity {
+@Table(name="participants")
+public class ParticipantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long equipmentId;
+    private Long id;
 
-    @NotNull(message = "Null Field : nome" )
-    @Column(name = "nome")
-    private String nome;
+    @NotNull(message = "Null Field : name" )
+    @Column(name = "name")
+    private String name;
 
-    @NotNull(message = "Null Field : numSerie" )
-    @Column(name = "numSerie")
-    private String numSerie;
+    @NotNull(message = "Null Field : name" )
+    @Column(name = "email")
+    private String email;
+
+
 }

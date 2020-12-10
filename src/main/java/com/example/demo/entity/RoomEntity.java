@@ -33,11 +33,11 @@ public class RoomEntity {
     private LocalDate date;
 
     @NotNull(message = "Null Field : starHour" )
-    @Column(name = "startHour", nullable = false)
+    @Column(name = "startHour")
     private LocalTime startHour;
 
     @NotNull(message = "Null Field : endHour" )
-    @Column(name = "endHour", nullable = false)
+    @Column(name = "endHour")
     private LocalTime endHour;
 
     @ManyToMany

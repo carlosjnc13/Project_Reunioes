@@ -37,7 +37,6 @@ public class ParticipantService {
         return ParticipantMapper.unmarshall(participantRepository.save(ParticipantMapper.marshall(participant)));
     }
     public Map<String, Boolean> deleteParticipant (Long participantId) throws BusinessException {
-
         Optional<ParticipantEntity> entity = participantRepository.findById(participantId);
 
         if(entity.isEmpty())
@@ -46,7 +45,6 @@ public class ParticipantService {
         participantRepository.deleteById(participantId);
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted",Boolean.TRUE);
-
         return response;
     }
 

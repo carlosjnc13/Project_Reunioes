@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,6 +28,9 @@ public class ParticipantEntity {
     @NotNull(message = "Null Field : name" )
     @Column(name = "email")
     private String email;
+
+    @ManyToMany(mappedBy = "participants")
+    List<RoomEntity> roomEntityList;
 
 
 }

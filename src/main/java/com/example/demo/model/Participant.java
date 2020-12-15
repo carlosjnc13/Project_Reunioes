@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,5 +20,7 @@ public class Participant {
 
     @NotNull(message = "Null Field : email" )
     private String email;
+
+    List<Room> roomList;
 
 }

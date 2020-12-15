@@ -16,8 +16,8 @@ public class ParticipantDTO {
     private String name;
     private String email;
 
-    public Participant transformModel(){
-        return new Participant(id,name,email);
-    }
+//    public Participant transformModel(){
+//        return new Participant(id,name,email);
+//    }
 
 }

@@ -19,8 +19,8 @@ public class ParticipantController extends IController{
     private ParticipantService participantService;
 
     @PostMapping(PARTICIPANT_URL)
-    public ResponseEntity<?> createParticipant(@RequestBody ParticipantDTO participantDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(participantService.createParticipant(participantDTO.transformModel()));
+    public ResponseEntity<?> createParticipant(@RequestBody Participant participant){
+        return ResponseEntity.status(HttpStatus.CREATED).body(participantService.createParticipant(participant));
     }
 
     @GetMapping(PARTICIPANT_URL)

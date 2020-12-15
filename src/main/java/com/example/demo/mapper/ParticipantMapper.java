@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 public class ParticipantMapper {
 
     public static ParticipantEntity marshall(Participant model){
-        return new ParticipantEntity(model.getId(),model.getName(),model.getEmail());
+        return new ParticipantEntity(model.getId(),model.getName(),model.getEmail(), RoomMapper.marshall(model.getRoomList()));
     }
     public static Participant unmarshall(ParticipantEntity entity){
-        return new Participant(entity.getId(), entity.getName(), entity.getEmail());
+        return new Participant(entity.getId(), entity.getName(), entity.getEmail(), RoomMapper.unmarshall(entity.getRoomEntityList()));
     }
     public static List<ParticipantEntity> marshall(List<Participant> listParticipant){
         return listParticipant.stream().map(  participant -> marshall(participant)).collect(Collectors.toList());

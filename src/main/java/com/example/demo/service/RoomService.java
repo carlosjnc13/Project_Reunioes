@@ -57,7 +57,7 @@ public class RoomService {
 
     public RoomDTOResponse updateRoom(Long roomId, Room room) throws BusinessException {
         scheduleValidation(room);
-        RoomEntity entity = roomRepository.findById(roomId).orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND + ": " + roomId));
+        roomRepository.findById(roomId).orElseThrow(() -> new BusinessException(BusinessException.ROOM_NOT_FOUND + ": " + roomId));
         room.setId(roomId);
         Room repositoryResponse = RoomMapper.unmarshall(roomRepository.save(RoomMapper.marshall(room)));
         return new RoomDTOResponse(repositoryResponse.getId(), repositoryResponse.getName(), repositoryResponse.getDate(),repositoryResponse.getStartHour(),repositoryResponse.getEndHour(), repositoryResponse.getParticipants());
@@ -85,5 +85,11 @@ public class RoomService {
 
         if(roomEntity.getStartHour().equals(roomEntity.getEndHour()))
             throw new BusinessException(BusinessException.TIME_ERROR);
+    }
+    public List<RoomDTOResponse> getRoomsByParticipantId(Long participantId){
+        List<RoomEntity> entityList = roomRepository.findAllByparticipantsIdEquals(participantId);
+        List<RoomDTOResponse> responseList = entityList.stream().map( entity -> new RoomDTOResponse(entity.getId(), entity.getName(), entity.getDate(), entity.getStartHour(),
+        entity.getEndHour(), ParticipantMapper.unmarshall(entity.getParticipants()))).collect(Collectors.toList());
+        return responseList;
     }
 }

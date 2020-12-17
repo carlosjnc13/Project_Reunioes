@@ -11,11 +11,11 @@ public class RoomMapper {
     
     public static RoomEntity marshall(Room model){
         return new RoomEntity(model.getId(), model.getName(),model.getDate(),model.getStartHour(),model.getEndHour(),model.getParticipants()
-                .stream().map( Participant  ->  new ParticipantEntity(Participant.getId(), Participant.getName(), Participant.getEmail(), RoomMapper.marshall(Participant.getRoomList()))).collect(Collectors.toList()));
+                .stream().map( participant  ->  new ParticipantEntity(participant.getId(), participant.getName(), participant.getEmail())).collect(Collectors.toList()));
     }
     public static Room unmarshall(RoomEntity entity){
         return new Room(entity.getId(), entity.getName(),entity.getDate(),entity.getStartHour(),entity.getEndHour(),entity.getParticipants()
-                .stream().map( ParticipantEntity  ->  new Participant(ParticipantEntity.getId(), ParticipantEntity.getName(), ParticipantEntity.getEmail(), RoomMapper.unmarshall(ParticipantEntity.getRoomEntityList()))).collect(Collectors.toList()));
+                .stream().map( ParticipantEntity  ->  new Participant(ParticipantEntity.getId(), ParticipantEntity.getName(), ParticipantEntity.getEmail())).collect(Collectors.toList()));
     }
     public static  List<RoomEntity> marshall (List<Room> listRoom){
         return listRoom.stream().map(  room -> marshall(room)  ).collect(Collectors.toList());

@@ -19,28 +19,28 @@ public class ParticipantController extends IController{
     private ParticipantService participantService;
 
     @PostMapping(PARTICIPANT_URL)
-    public ResponseEntity<?> createParticipant(@RequestBody Participant participant){
-        return ResponseEntity.status(HttpStatus.CREATED).body(participantService.createParticipant(participant));
+    public ResponseEntity<?> createParticipant(@RequestBody ParticipantDTO participantDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(participantService.createParticipant(participantDTO.transformModel()));
     }
 
     @GetMapping(PARTICIPANT_URL)
-    public List<Participant> getAllRooms(){
-        return participantService.getAllParticipants();
+    public ResponseEntity<?> getAllRooms(){
+        return ResponseEntity.status(HttpStatus.OK).body(participantService.getAllParticipants());
     }
 
     @GetMapping(PARTICIPANT_URL_ID)
-    public ResponseEntity<Participant> getParticipantById(@PathVariable(value = "id") Long participantId) throws BusinessException {
+    public ResponseEntity<?> getParticipantById(@PathVariable(value = "id") Long participantId) throws BusinessException {
         return ResponseEntity.ok().body(participantService.getParticipantById(participantId));
     }
 
     @PutMapping(PARTICIPANT_URL_ID)
-    public ResponseEntity<Participant> updateParticipant(@PathVariable(value= "id") Long participantId, @Validated @RequestBody Participant participant) throws BusinessException {
-        return ResponseEntity.ok(participantService.updateParticipant(participantId, participant));
+    public ResponseEntity<?> updateParticipant(@PathVariable(value= "id") Long participantId, @Validated @RequestBody ParticipantDTO participantDTO) throws BusinessException {
+        return ResponseEntity.ok(participantService.updateParticipant(participantId, participantDTO.transformModel()));
     }
 
     @DeleteMapping(PARTICIPANT_URL_ID)
-    public Map<String, Boolean> deleteParticipant(@PathVariable(value = "id")Long participantId) throws BusinessException {
-        return participantService.deleteParticipant(participantId);
+    public ResponseEntity<?> deleteParticipant(@PathVariable(value = "id")Long participantId) throws BusinessException {
+        return ResponseEntity.status(HttpStatus.OK).body(participantService.deleteParticipant(participantId));
     }
 
 

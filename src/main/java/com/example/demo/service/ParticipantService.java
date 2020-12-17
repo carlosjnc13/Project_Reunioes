@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ParticipantDTO;
 import com.example.demo.entity.ParticipantEntity;
+import com.example.demo.entity.RoomEntity;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.mapper.ParticipantMapper;
 import com.example.demo.mapper.RoomMapper;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ParticipantService {
@@ -23,18 +26,22 @@ public class ParticipantService {
     public Participant createParticipant(Participant participant){
         return ParticipantMapper.unmarshall(participantRepository.save(ParticipantMapper.marshall(participant)));
     }
-    public List<Participant> getAllParticipants(){
-        return ParticipantMapper.unmarshall(participantRepository.findAll());
+    public List<ParticipantDTO> getAllParticipants(){
+        List<ParticipantDTO>responseList = ParticipantMapper.unmarshall(participantRepository.findAll())
+                .stream().map( model -> new ParticipantDTO(model.getId(), model.getName(), model.getEmail())).collect(Collectors.toList());
+         return responseList;
     }
 
-    public Participant getParticipantById(Long participantId) throws BusinessException {
-        return ParticipantMapper.unmarshall(participantRepository.findById(participantId)
+    public ParticipantDTO getParticipantById(Long participantId) throws BusinessException {
+        Participant model = ParticipantMapper.unmarshall(participantRepository.findById(participantId)
                 .orElseThrow(() -> new BusinessException(BusinessException.PARTICIPANT_NOT_FOUND+": "+ participantId)));
+        return new ParticipantDTO(model.getId(), model.getName(), model.getEmail());
     }
-    public Participant updateParticipant(Long participantId, Participant participant) throws BusinessException{
-        ParticipantEntity entity = participantRepository.findById(participantId).orElseThrow(() -> new BusinessException(BusinessException.PARTICIPANT_NOT_FOUND+": "+ participantId));
+    public ParticipantDTO updateParticipant(Long participantId, Participant participant) throws BusinessException{
+        participantRepository.findById(participantId).orElseThrow(() -> new BusinessException(BusinessException.PARTICIPANT_NOT_FOUND+": "+ participantId));
         participant.setId(participantId);
-        return ParticipantMapper.unmarshall(participantRepository.save(ParticipantMapper.marshall(participant)));
+        Participant model = ParticipantMapper.unmarshall(participantRepository.save(ParticipantMapper.marshall(participant)));
+        return new ParticipantDTO(model.getId(), model.getName(), model.getEmail());
     }
     public Map<String, Boolean> deleteParticipant (Long participantId) throws BusinessException {
         Optional<ParticipantEntity> entity = participantRepository.findById(participantId);

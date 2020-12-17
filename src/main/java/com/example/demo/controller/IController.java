@@ -6,5 +6,5 @@ public class IController {
     public static final String ROOM_URL_ID = ROOM_URL + "/{id}";
     public static final String PARTICIPANT_URL = "/participant";
     public static final String PARTICIPANT_URL_ID = PARTICIPANT_URL + "/{id}";
-
+    public static final String ROOM_PARTICIPATNS_URL_ID = ROOM_URL + PARTICIPANT_URL_ID;
 }

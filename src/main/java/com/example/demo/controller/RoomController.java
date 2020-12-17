@@ -47,4 +47,9 @@ public class RoomController extends IController{
     public ResponseEntity<?> deleteRoom(@PathVariable(value = "id")Long roomId) throws BusinessException {
         return ResponseEntity.status(HttpStatus.OK).body(roomService.deleteRoom(roomId));
     }
+
+    @GetMapping(ROOM_PARTICIPATNS_URL_ID)
+    public ResponseEntity<?> getRoomsByParticipantId(@PathVariable(value = "id")Long participantId) throws BusinessException{
+        return ResponseEntity.status(HttpStatus.OK).body(roomService.getRoomsByParticipantId(participantId));
+    }
 }

@@ -13,11 +13,13 @@ import javax.validation.constraints.NotNull;
 public class ParticipantDTO {
 
     private Long id;
+    @NotNull(message = "Null Field : name" )
     private String name;
+    @NotNull(message = "Null Field : email" )
     private String email;
 
-//    public Participant transformModel(){
-//        return new Participant(id,name,email);
-//    }
+    public Participant transformModel(){
+        return new Participant(id,name,email);
+    }
 
 }

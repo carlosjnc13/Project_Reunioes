@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,9 +30,5 @@ public class ParticipantEntity {
     @NotNull(message = "Null Field : name" )
     @Column(name = "email")
     private String email;
-
-    @ManyToMany(mappedBy = "participants")
-    List<RoomEntity> roomEntityList;
-
 
 }

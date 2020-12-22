@@ -40,6 +40,10 @@ public class RoomEntity {
     @Column(name = "endHour", nullable = false)
     private LocalTime endHour;
 
+    @ManyToOne
+    @JoinColumn(name = "equipmentId")
+    private EquipmentEntity equipment;
+
     @ManyToMany
     @JoinTable(name="room_Participants", joinColumns = { @JoinColumn(name="meetingroom_id") }, inverseJoinColumns = { @JoinColumn(name="participants_id")})
     private List<ParticipantEntity> participants;

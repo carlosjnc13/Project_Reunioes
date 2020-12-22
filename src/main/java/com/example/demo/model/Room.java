@@ -35,6 +35,9 @@ public class Room {
     @ApiModelProperty(example = "hh:mm:ss")
     private LocalTime endHour;
 
+    @NotNull(message = "Null Field: equipment")
+    private Equipment equipment;
+
     @NotNull(message = "Null Field: ListParticipants")
     private List<Participant> participants;
     
